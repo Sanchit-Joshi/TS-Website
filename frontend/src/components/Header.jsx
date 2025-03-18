@@ -4,12 +4,15 @@ import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 
 const Header = () => {
-  const { cart } = useContext(CartContext);
+  const { cartItems } = useContext(CartContext);
   const { user, logout } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
+  const cartItemsCount = cartItems.reduce(
+    (total, item) => total + (item.qty || 0),
+    0
+  );
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">

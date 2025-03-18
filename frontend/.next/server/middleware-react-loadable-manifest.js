@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST="{\"..\\\\..\\\\app\\\\page.js -> ../src/pages/HomePage.next\":{\"id\":\"..\\\\..\\\\app\\\\page.js -> ../src/pages/HomePage.next\",\"files\":[\"static/chunks/_app-pages-browser_src_pages_HomePage_next_jsx.js\"]}}"
