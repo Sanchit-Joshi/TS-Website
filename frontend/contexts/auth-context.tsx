@@ -1,14 +1,20 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
-import { Session, User } from '@supabase/supabase-js';
+
+type User = {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  isAdmin: boolean;
+};
 
 type AuthContextType = {
   user: User | null;
-  session: Session | null;
+  token: string | null;
   isLoading: boolean;
-  signUp: (email: string, password: string) => Promise<{ error: any }>;
+  signUp: (name: string, email: string, password: string, phone: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: any }>;
@@ -18,62 +24,110 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    };
-
-    fetchSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
+    const token = localStorage.getItem('token');
+    if (token) {
+      const fetchUser = async () => {
+        try {
+          const response = await fetch('/api/auth/me', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+            setToken(token);
+          } else {
+            localStorage.removeItem('token');
+          }
+        } catch (error) {
+          console.error('Error fetching user:', error);
+          localStorage.removeItem('token');
+        }
         setIsLoading(false);
-      }
-    );
-
-    return () => {
-      subscription.unsubscribe();
-    };
+      };
+      fetchUser();
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
-  const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    return { error };
+  const signUp = async (name: string, email: string, password: string, phone: string) => {
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password, phone }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setUser(data);
+        setToken(data.token);
+        localStorage.setItem('token', data.token);
+        return { error: null };
+      }
+      return { error: data.message };
+    } catch (error) {
+      return { error: 'An error occurred during registration' };
+    }
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setUser(data);
+        setToken(data.token);
+        localStorage.setItem('token', data.token);
+        return { error: null };
+      }
+      return { error: data.message };
+    } catch (error) {
+      return { error: 'An error occurred during login' };
+    }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem('token');
   };
 
   const resetPassword = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    return { error };
+    try {
+      const response = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        return { error: null };
+      }
+      return { error: data.message };
+    } catch (error) {
+      return { error: 'An error occurred during password reset' };
+    }
   };
 
   const value = {
     user,
-    session,
+    token,
     isLoading,
     signUp,
     signIn,

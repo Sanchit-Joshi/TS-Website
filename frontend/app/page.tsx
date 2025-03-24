@@ -1,20 +1,78 @@
+'use client'
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Battery, Zap, Shield } from "lucide-react";
 import Link from "next/link";
 
+import { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 export default function Home() {
+  const backgroundImages = [
+    {
+      url: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80",
+      alt: "Industrial Power Solutions"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1542382257-80dedb725088?auto=format&fit=crop&q=80",
+      alt: "Power Distribution Systems"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1487875961445-47a00398c267?auto=format&fit=crop&q=80",
+      alt: "Industrial Transformers"
+    }
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const previousImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? backgroundImages.length - 1 : prevIndex - 1
+    );
+  };
+
+  useEffect(() => {
+    const interval = setInterval(nextImage, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80"
-            alt="Industrial Power Solutions"
-            className="w-full h-full object-cover opacity-20"
-          />
-        </div>
+      <section className="relative h-[600px] flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-800 text-white overflow-hidden group">
+        {backgroundImages.map((image, index) => (
+          <div
+            key={image.url}
+            className="absolute inset-0 transition-opacity duration-1000"
+            style={{ opacity: index === currentImageIndex ? 0.2 : 0 }}
+          >
+            <img
+              src={image.url}
+              alt={image.alt}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ))}
+        <button
+          onClick={previousImage}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          aria-label="Previous image"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </button>
+        <button
+          onClick={nextImage}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          aria-label="Next image"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </button>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
             Powering the Future of Industry

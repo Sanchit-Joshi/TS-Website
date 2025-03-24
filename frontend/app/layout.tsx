@@ -6,6 +6,7 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
 import { CartProvider } from '@/contexts/cart-context';
+import { AuthProvider } from '@/contexts/auth-context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,14 +29,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <CartProvider>
-            <div className="min-h-screen flex flex-col">
-              <Navbar />
-              <main className="flex-grow">{children}</main>
-              <Footer />
-            </div>
-            <Toaster />
-          </CartProvider>
+          <AuthProvider>
+            <CartProvider>
+              <div className="min-h-screen flex flex-col">
+                <Navbar />
+                <main className="flex-grow">{children}</main>
+                <Footer />
+              </div>
+              <Toaster />
+            </CartProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

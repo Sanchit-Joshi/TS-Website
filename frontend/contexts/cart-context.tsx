@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { toast } from '@/hooks/use-toast';
 
 type CartItem = {
   id: string;
@@ -47,16 +48,30 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems((prevItems) => {
       const existingItem = prevItems.find((i) => i.id === item.id);
       if (existingItem) {
+        toast({
+          description: `Updated quantity of ${item.name} in cart`
+        });
         return prevItems.map((i) =>
           i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
         );
       }
+      toast({
+        description: `Added ${item.name} to cart`
+      });
       return [...prevItems, item];
     });
   };
 
   const removeItem = (id: string) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setItems((prevItems) => {
+      const itemToRemove = prevItems.find((item) => item.id === id);
+      if (itemToRemove) {
+        toast({
+          description: `Removed ${itemToRemove.name} from cart`
+        });
+      }
+      return prevItems.filter((item) => item.id !== id);
+    });
   };
 
   const updateQuantity = (id: string, quantity: number) => {

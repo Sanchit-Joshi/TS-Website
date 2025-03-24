@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, User, Menu } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import {
   Sheet,
   SheetContent,
@@ -76,6 +77,7 @@ export function Navbar() {
                 <User className="h-5 w-5" />
               </Button>
             </Link>
+            <ThemeToggle />
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="md:hidden">
                 <Button variant="ghost" size="icon">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ClientOnly from "@/components/client-only";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
@@ -130,7 +131,8 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <ClientOnly>
+      <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8">Our Products</h1>
 
       {/* Filters and Search */}
@@ -285,5 +287,6 @@ export default function ProductsPage() {
         )}
       </Dialog>
     </div>
+    </ClientOnly>
   );
 }

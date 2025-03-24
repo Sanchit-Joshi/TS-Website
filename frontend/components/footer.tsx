@@ -21,8 +21,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/quote" className="text-muted-foreground hover:text-primary">
-                  Request Quote
+                <Link href="/quotation" className="text-muted-foreground hover:text-primary">
+                  Request Quotation
                 </Link>
               </li>
               <li>
@@ -60,7 +60,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t text-center text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} PowerTech Solutions. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Perfect Solutions. All rights reserved.</p>
         </div>
       </div>
     </footer>
