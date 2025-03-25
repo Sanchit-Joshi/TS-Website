@@ -1,19 +1,5 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/[root of the server]__26c7fb5b._.css",
-      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_dac861ae._.js",
-      "static/chunks/node_modules_baea4cd1._.js",
-      "static/chunks/_7a1df6b4._.js",
-      "static/chunks/app_layout_tsx_f0e4c1a2._.js",
-      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_49a6ea35._.js",
-      "static/chunks/node_modules_next_dist_compiled_2ce9398a._.js",
-      "static/chunks/node_modules_next_dist_client_43e3ffb8._.js",
-      "static/chunks/node_modules_next_dist_3bfaed20._.js",
-      "static/chunks/node_modules_@swc_helpers_cjs_00636ac3._.js",
-      "static/chunks/_e69f0d32._.js",
-      "static/chunks/_be317ff2._.js"
-    ],
     "/about/page": [
       "static/chunks/[root of the server]__26c7fb5b._.css",
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_dac861ae._.js",
@@ -44,15 +30,14 @@
       "static/chunks/_e69f0d32._.js",
       "static/chunks/_be317ff2._.js"
     ],
-    "/cart/page": [
+    "/contact/page": [
       "static/chunks/[root of the server]__26c7fb5b._.css",
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_dac861ae._.js",
       "static/chunks/node_modules_baea4cd1._.js",
       "static/chunks/_7a1df6b4._.js",
       "static/chunks/app_layout_tsx_f0e4c1a2._.js",
-      "static/chunks/node_modules_b868951f._.js",
-      "static/chunks/app_cart_page_tsx_04dbd294._.js",
-      "static/chunks/app_cart_page_tsx_132b6988._.js",
+      "static/chunks/_30c9ef5a._.js",
+      "static/chunks/app_contact_page_tsx_132b6988._.js",
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_49a6ea35._.js",
       "static/chunks/node_modules_next_dist_compiled_2ce9398a._.js",
       "static/chunks/node_modules_next_dist_client_43e3ffb8._.js",
