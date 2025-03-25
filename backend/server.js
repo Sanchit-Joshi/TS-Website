@@ -1,11 +1,15 @@
-// Add this at the very top of the file
-require('./config/deprecationConfig');
+import "./config/deprecationConfig.js";
 
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const path = require("path");
-const connectDB = require("./config/db");
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import connectDB from "./config/db.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Load environment variables
 dotenv.config({ path: "../.env" });
@@ -29,11 +33,17 @@ app.use(
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // Routes
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/products", require("./routes/products"));
-app.use("/api/orders", require("./routes/orders"));
-app.use("/api/users", require("./routes/users"));
-app.use("/api/quotations", require("./routes/quotations"));
+import authRoutes from "./routes/auth.js";
+import productRoutes from "./routes/products.js";
+import orderRoutes from "./routes/orders.js";
+import userRoutes from "./routes/users.js";
+import quotationRoutes from "./routes/quotations.js";
+
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/quotations", quotationRoutes);
 
 // Health check route
 app.get("/", (req, res) => {

@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const asyncHandler = require("express-async-handler");
-const Quotation = require("../models/Quotation");
-const { protect } = require("../middleware/auth");
+import asyncHandler from "express-async-handler";
+import Quotation from "../models/Quotation";
+import { protect } from "../middleware/auth";
 
 // @desc    Create new quotation request
 // @route   POST /api/quotations
@@ -128,4 +128,4 @@ router.get(
   })
 );
 
-module.exports = router;
+export default router;

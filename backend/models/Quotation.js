@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const quotationSchema = mongoose.Schema(
   {
@@ -64,4 +64,4 @@ const quotationSchema = mongoose.Schema(
 
 const Quotation = mongoose.model("Quotation", quotationSchema);
 
-module.exports = Quotation;
+export default Quotation;
